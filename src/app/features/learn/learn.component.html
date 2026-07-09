@@ -1,0 +1,92 @@
+<section class="learn-hero" aria-labelledby="learn-title">
+  <div>
+    <p class="eyebrow">Learn</p>
+    <h1 id="learn-title">Get ready to buy before you fall for the car.</h1>
+    <p>
+      The Learn section is the marketing and education layer for Drivewise: guides, planning
+      tools, and a clear path from curiosity to confident shopping.
+    </p>
+    <div class="button-row">
+      <a class="button" routerLink="/buy">Shop with context</a>
+      <a class="button-secondary" routerLink="/sell">Value your trade-in</a>
+    </div>
+  </div>
+
+  <form class="payment-card" aria-label="Payment estimator">
+    <p class="eyebrow">Payment estimator</p>
+    <strong>{{ estimatedPayment | currency: 'USD' : 'symbol' : '1.0-0' }}/mo</strong>
+    <span>Estimated payment for demo planning</span>
+
+    <label>
+      Vehicle price
+      <input type="number" min="0" step="500" name="vehiclePrice" [(ngModel)]="vehiclePrice" />
+    </label>
+
+    <label>
+      Down payment
+      <input type="number" min="0" step="500" name="downPayment" [(ngModel)]="downPayment" />
+    </label>
+
+    <label>
+      APR
+      <input type="number" min="0" step="0.1" name="apr" [(ngModel)]="apr" />
+    </label>
+
+    <label>
+      Term
+      <select name="termMonths" [(ngModel)]="termMonths">
+        <option [ngValue]="36">36 months</option>
+        <option [ngValue]="48">48 months</option>
+        <option [ngValue]="60">60 months</option>
+        <option [ngValue]="72">72 months</option>
+      </select>
+    </label>
+  </form>
+</section>
+
+<section aria-labelledby="guides-title">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Buying guides</p>
+      <h2 id="guides-title">Marketing content backed by mock service data</h2>
+    </div>
+    <p>Each guide card comes from the LearningService so loading and error states can be added later.</p>
+  </div>
+
+  <div class="guide-grid">
+    @for (guide of guides(); track guide.id) {
+      <article class="guide-card">
+        <span>{{ guide.category }} · {{ guide.readTimeMinutes }} min read</span>
+        <h3>{{ guide.title }}</h3>
+        <p>{{ guide.summary }}</p>
+        <ul>
+          @for (highlight of guide.highlights; track highlight) {
+            <li>{{ highlight }}</li>
+          }
+        </ul>
+      </article>
+    }
+  </div>
+</section>
+
+<section class="path-section" aria-labelledby="path-title">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Buyer path</p>
+      <h2 id="path-title">A simple route through the app</h2>
+    </div>
+  </div>
+
+  <ol class="path-list">
+    @for (step of steps(); track step.title; let index = $index) {
+      <li>
+        <span>{{ index + 1 }}</span>
+        <div>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.description }}</p>
+          <strong>{{ step.action }}</strong>
+        </div>
+      </li>
+    }
+  </ol>
+</section>
