@@ -13,9 +13,11 @@
     "prewatch": "npm run build:legal-react",
     "watch": "ng build --watch --configuration development",
     "pretest": "npm run build:legal-react",
-    "test": "npm run test:legal-react && ng test",
-    "build:legal-react": "npm run build -w @drivewise/legal-react",
-    "test:legal-react": "npm run test -w @drivewise/legal-react"
+    "test": "npm run test:auth-state && npm run test:legal-react && ng test",
+    "build:auth-state": "npm run build -w @drivewise/auth-state",
+    "build:legal-react": "npm run build:auth-state && npm run build -w @drivewise/legal-react",
+    "test:auth-state": "npm run test -w @drivewise/auth-state",
+    "test:legal-react": "npm run build:auth-state && npm run test -w @drivewise/legal-react"
   },
   "private": true,
   "packageManager": "npm@10.9.8",
