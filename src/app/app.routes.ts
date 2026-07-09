@@ -35,16 +35,16 @@ export const routes: Routes = [
   {
     path: 'terms',
     loadComponent: () =>
-      import('./features/legal/legal-document.component').then(
-        (component) => component.LegalDocumentComponent,
+      import('./features/legal/legal-page-host.component').then(
+        (component) => component.LegalPageHostComponent,
       ),
     data: { documentId: 'terms' },
   },
   {
     path: 'privacy',
     loadComponent: () =>
-      import('./features/legal/legal-document.component').then(
-        (component) => component.LegalDocumentComponent,
+      import('./features/legal/legal-page-host.component').then(
+        (component) => component.LegalPageHostComponent,
       ),
     data: { documentId: 'privacy' },
   },

@@ -1,0 +1,5 @@
+@if (legalReactEnabled()) {
+  <app-react-legal-host [documentId]="documentId()" [privacyDocument]="privacyDocument()" />
+} @else {
+  <app-legal-document />
+}

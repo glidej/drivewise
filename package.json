@@ -10,6 +10,7 @@
     "start": "ng serve",
     "prebuild": "npm run build:legal-react",
     "build": "ng build",
+    "prewatch": "npm run build:legal-react",
     "watch": "ng build --watch --configuration development",
     "pretest": "npm run build:legal-react",
     "test": "npm run test:legal-react && ng test",
