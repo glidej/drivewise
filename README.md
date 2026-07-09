@@ -1,59 +1,84 @@
-# AngularProject
+# Drivewise Demo
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.5.
+Drivewise is a demonstration car marketplace app built with Angular and mock data. It models a realistic product surface for learning, buying, and selling cars without authentication backends, real inventory APIs, or legally binding content.
 
-## Development server
+The app is also a migration playground. Angular owns the application shell, routing, header, footer, and most feature areas. The legal pages can be rendered by a React microfrontend package behind a feature flag, while the original Angular legal page remains available as a rollback path.
 
-To start a local development server, run:
+## Application Areas
 
-```bash
-ng serve
-```
+- Learn: marketing and education content, including buying guides and a payment estimator.
+- Buy: searchable mock inventory with filters, result cards, and vehicle detail pages.
+- Sell: seller valuation workflow with a mocked offer and draft confirmation.
+- Legal: Terms of Service and Privacy Policy pages with lorem ipsum content.
+- Mock auth: shared authentication state synchronized between Angular and React through `localStorage`, `sessionStorage`, and a framework-neutral workspace package.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Workspace Packages
 
-## Code scaffolding
+- `packages/auth-state`: shared mock authentication state package used by both Angular and React.
+- `packages/legal-react`: React legal-page microfrontend. Terms fetches mock data with React Query; Privacy receives Angular service data as props.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Generated package outputs and package-local installs are ignored:
 
-```bash
-ng generate component component-name
-```
+- `packages/*/dist`
+- `packages/*/node_modules`
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Setup
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+Install dependencies from the repository root:
 
 ```bash
-ng build
+npm install
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Run Locally
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Start the Angular development server:
 
 ```bash
-ng test
+npm start
 ```
 
-## Running end-to-end tests
+Open `http://localhost:4200/`.
 
-For end-to-end (e2e) testing, run:
+The `prestart` script builds the React/auth workspace packages before Angular starts so the in-process package imports are available.
+
+## Build
+
+Create a production build:
 
 ```bash
-ng e2e
+npm run build
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+This builds `@drivewise/auth-state`, then `@drivewise/legal-react`, then the Angular app. Output is written to `dist/angular-project`.
 
-## Additional Resources
+## Test
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Run all tests:
+
+```bash
+npm test -- --watch=false
+```
+
+This runs:
+
+- `@drivewise/auth-state` package tests
+- `@drivewise/legal-react` package tests
+- Angular app tests
+
+Package-specific tests are also available:
+
+```bash
+npm run test:auth-state
+npm run test:legal-react
+```
+
+## Feature Flags
+
+React legal pages are enabled by default through `FeatureFlagsService`. Turning `legalReactEnabled` off routes the same Angular `/terms` and `/privacy` pages through the Angular fallback component instead of the React host.
+
+## Notes
+
+- All inventory, offers, auth users, sessions, and legal content are mocked.
+- Legal pages are structured realistically, but their body content is lorem ipsum placeholder copy.
+- The app intentionally keeps Angular chrome around the React legal microfrontend to demonstrate incremental migration.
