@@ -8,6 +8,7 @@ const styles = `
 
 .legal-react-hero,
 .legal-react-disclaimer,
+.legal-react-auth-panel,
 .legal-react-section-nav,
 .legal-react-section,
 .legal-react-missing,
@@ -89,6 +90,37 @@ const styles = `
   margin: 0;
 }
 
+.legal-react-auth-panel {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.legal-react-auth-panel h2 {
+  color: #14213d;
+  margin: 0.25rem 0 0.35rem;
+}
+
+.legal-react-auth-panel p:not(.legal-react-eyebrow) {
+  color: #52616f;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.legal-react-auth-panel button {
+  background: #0f766e;
+  border: 0;
+  border-radius: 0.5rem;
+  color: white;
+  cursor: pointer;
+  flex: 0 0 auto;
+  font-weight: 900;
+  min-height: 2.75rem;
+  padding: 0.7rem 1rem;
+}
+
 .legal-react-layout {
   align-items: start;
   display: grid;
@@ -164,6 +196,11 @@ const styles = `
 
   .legal-react-section-nav {
     position: static;
+  }
+
+  .legal-react-auth-panel {
+    align-items: stretch;
+    flex-direction: column;
   }
 }
 `;

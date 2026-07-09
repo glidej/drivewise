@@ -31,19 +31,28 @@ const SESSION_DURATION_MS = 1000 * 60 * 60 * 8;
 const subscriberSet = new Set<AuthSubscriber>();
 const instanceId = `auth-state-${Math.random().toString(36).slice(2)}`;
 let globalListenersStarted = false;
+let cachedSnapshot: AuthSnapshot | null = null;
+let cachedSnapshotSignature = '';
 
 export const DEFAULT_MOCK_USER: AuthUser = cloneUser(MOCK_USER);
 
 export function getAuthSnapshot(): AuthSnapshot {
   const rememberedProfile = readRememberedProfile();
   const session = readValidSession(rememberedProfile);
-
-  return cloneSnapshot({
+  const snapshot: AuthSnapshot = {
     status: session && rememberedProfile ? 'authenticated' : 'anonymous',
     user: session && rememberedProfile ? rememberedProfile.user : null,
     rememberedProfile,
     session,
-  });
+  };
+  const signature = JSON.stringify(snapshot);
+
+  if (!cachedSnapshot || cachedSnapshotSignature !== signature) {
+    cachedSnapshot = freezeSnapshot(snapshot);
+    cachedSnapshotSignature = signature;
+  }
+
+  return cachedSnapshot;
 }
 
 export function subscribeAuthState(subscriber: AuthSubscriber): AuthUnsubscribe {
@@ -98,6 +107,8 @@ export function forgetMockUser(): AuthSnapshot {
 export function resetMockAuthStateForTest(): AuthSnapshot {
   clearAuthSession();
   clearRememberedProfile();
+  cachedSnapshot = null;
+  cachedSnapshotSignature = '';
 
   return broadcastAuthChange();
 }
@@ -163,18 +174,20 @@ function startGlobalListeners(): void {
   });
 }
 
-function cloneSnapshot(snapshot: AuthSnapshot): AuthSnapshot {
-  return {
+function freezeSnapshot(snapshot: AuthSnapshot): AuthSnapshot {
+  const frozenSnapshot = {
     status: snapshot.status,
-    user: snapshot.user ? cloneUser(snapshot.user) : null,
+    user: snapshot.user ? Object.freeze(cloneUser(snapshot.user)) : null,
     rememberedProfile: snapshot.rememberedProfile
-      ? {
+      ? Object.freeze({
           ...snapshot.rememberedProfile,
-          user: cloneUser(snapshot.rememberedProfile.user),
-        }
+          user: Object.freeze(cloneUser(snapshot.rememberedProfile.user)),
+        })
       : null,
-    session: snapshot.session ? { ...snapshot.session } : null,
+    session: snapshot.session ? Object.freeze({ ...snapshot.session }) : null,
   };
+
+  return Object.freeze(frozenSnapshot);
 }
 
 function cloneUser(user: AuthUser): AuthUser {

@@ -1,3 +1,4 @@
+import { AuthStatusPanel } from './AuthStatusPanel';
 import { LegalDocument } from './types';
 
 interface LegalDocumentViewProps {
@@ -34,6 +35,8 @@ export function LegalDocumentView({ document, dataSourceLabel }: LegalDocumentVi
           lorem ipsum placeholder text for demonstration only.
         </p>
       </aside>
+
+      <AuthStatusPanel />
 
       <div className="legal-react-layout">
         <nav className="legal-react-section-nav" aria-label="Document sections">

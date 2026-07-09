@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+
+import { AuthService } from './core/services/auth.service';
 
 interface NavItem {
   label: string;
@@ -13,6 +15,9 @@ interface NavItem {
   styleUrl: './app.css',
 })
 export class App {
+  private readonly authService = inject(AuthService);
+
+  protected readonly authSnapshot = this.authService.snapshot;
   protected readonly navItems: NavItem[] = [
     { label: 'Learn', path: '/learn' },
     { label: 'Buy', path: '/buy' },
@@ -23,4 +28,16 @@ export class App {
     { label: 'Terms of Service', path: '/terms' },
     { label: 'Privacy Policy', path: '/privacy' },
   ];
+
+  protected signInDemo(): void {
+    this.authService.signInDemo();
+  }
+
+  protected resumeDemoSession(): void {
+    this.authService.resumeDemoSession();
+  }
+
+  protected signOut(): void {
+    this.authService.signOut();
+  }
 }

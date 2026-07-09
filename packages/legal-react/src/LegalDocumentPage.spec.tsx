@@ -1,4 +1,5 @@
 import { QueryClient } from '@tanstack/react-query';
+import { getAuthSnapshot, resetMockAuthStateForTest, signInMockUser } from '@drivewise/auth-state';
 import { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { afterEach, describe, expect, it } from 'vitest';
@@ -31,6 +32,7 @@ describe('LegalDocumentPage', () => {
   let container: HTMLDivElement | undefined;
 
   afterEach(() => {
+    resetMockAuthStateForTest();
     container?.remove();
     container = undefined;
   });
@@ -48,6 +50,7 @@ describe('LegalDocumentPage', () => {
 
     expect(container.textContent).toContain('React Query demo legal structure');
     expect(container.textContent).toContain('Terms data fetched inside legal-react');
+    expect(container.textContent).toContain('Viewing legal pages anonymously');
 
     await act(async () => root.unmount());
   });
@@ -68,6 +71,53 @@ describe('LegalDocumentPage', () => {
     expect(container.textContent).toContain('Privacy Policy');
     expect(container.textContent).toContain('Information We Collect');
     expect(container.textContent).toContain('Privacy data supplied by Angular');
+
+    await act(async () => root.unmount());
+  });
+
+  it('renders synchronized auth state from the shared auth package', async () => {
+    signInMockUser();
+    container = document.createElement('div');
+    document.body.appendChild(container);
+    const root = createRoot(container);
+    const queryClient = createQueryClient();
+
+    await act(async () => {
+      renderLegalDocumentForTest(root, queryClient, {
+        documentId: 'privacy',
+        privacyDocument,
+      });
+    });
+
+    expect(container.textContent).toContain('Signed in as Taylor Brooks');
+    expect(container.textContent).toContain('sessionStorage token and localStorage profile');
+
+    await act(async () => root.unmount());
+  });
+
+  it('can update shared auth state from React controls', async () => {
+    container = document.createElement('div');
+    document.body.appendChild(container);
+    const root = createRoot(container);
+    const queryClient = createQueryClient();
+
+    await act(async () => {
+      renderLegalDocumentForTest(root, queryClient, {
+        documentId: 'privacy',
+        privacyDocument,
+      });
+    });
+
+    const signInButton = Array.from(container.querySelectorAll('button')).find((button) =>
+      button.textContent?.includes('Sign in from React'),
+    );
+
+    await act(async () => {
+      signInButton?.click();
+    });
+
+    expect(getAuthSnapshot().status).toBe('authenticated');
+    expect(container.textContent).toContain('Signed in as Taylor Brooks');
 
     await act(async () => root.unmount());
   });

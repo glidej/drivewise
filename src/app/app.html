@@ -19,6 +19,28 @@
         </a>
       }
     </nav>
+
+    <div class="auth-panel" aria-label="Mock authentication controls">
+      @if (authSnapshot().status === 'authenticated') {
+        <div>
+          <span>Signed in</span>
+          <strong>{{ authSnapshot().user?.name }}</strong>
+        </div>
+        <button type="button" (click)="signOut()">Sign out</button>
+      } @else if (authSnapshot().rememberedProfile; as profile) {
+        <div>
+          <span>Remembered</span>
+          <strong>{{ profile.user.name }}</strong>
+        </div>
+        <button type="button" (click)="resumeDemoSession()">Resume</button>
+      } @else {
+        <div>
+          <span>Demo auth</span>
+          <strong>Anonymous</strong>
+        </div>
+        <button type="button" (click)="signInDemo()">Sign in demo</button>
+      }
+    </div>
   </header>
 
   <main class="page-frame">

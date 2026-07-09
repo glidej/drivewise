@@ -60,7 +60,12 @@ describe('auth-store', () => {
 
   it('returns defensive snapshots', () => {
     const snapshot = signInMockUser();
-    snapshot.user!.name = 'Mutated User';
+
+    expect(Object.isFrozen(snapshot)).toBe(true);
+    expect(Object.isFrozen(snapshot.user)).toBe(true);
+    expect(() => {
+      snapshot.user!.name = 'Mutated User';
+    }).toThrow();
 
     expect(getAuthSnapshot().user?.name).toBe('Taylor Brooks');
   });

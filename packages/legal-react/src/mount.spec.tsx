@@ -1,4 +1,5 @@
 import { act } from 'react';
+import { resetMockAuthStateForTest } from '@drivewise/auth-state';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { mountLegalDocument } from './mount';
@@ -9,6 +10,7 @@ describe('mountLegalDocument', () => {
   let container: HTMLDivElement | undefined;
 
   afterEach(() => {
+    resetMockAuthStateForTest();
     container?.remove();
     container = undefined;
   });
@@ -17,13 +19,17 @@ describe('mountLegalDocument', () => {
     container = document.createElement('div');
     document.body.appendChild(container);
 
-    const mounted = mountLegalDocument(container, { documentId: 'terms' });
+    let mounted: ReturnType<typeof mountLegalDocument>;
+
+    await act(async () => {
+      mounted = mountLegalDocument(container!, { documentId: 'terms' });
+    });
     await waitForText(container, 'Terms of Service');
 
     expect(document.getElementById('drivewise-legal-react-styles')).toBeTruthy();
 
     await act(async () => {
-      mounted.update({
+      mounted!.update({
         documentId: 'privacy',
         privacyDocument: {
           id: 'privacy',
@@ -40,7 +46,7 @@ describe('mountLegalDocument', () => {
     expect(container.textContent).toContain('Privacy Policy');
     expect(container.textContent).toContain('Injected privacy');
 
-    await act(async () => mounted.unmount());
+    await act(async () => mounted!.unmount());
     expect(container.textContent).toBe('');
   });
 });
