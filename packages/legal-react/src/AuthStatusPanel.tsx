@@ -5,6 +5,7 @@ import {
   signOutMockUser,
   subscribeAuthState,
 } from '@drivewise/auth-state';
+import { PrimaryButton, StatusPanel } from '@drivewise/react-ui';
 import { useSyncExternalStore } from 'react';
 
 export function AuthStatusPanel() {
@@ -16,47 +17,52 @@ export function AuthStatusPanel() {
 
   if (snapshot.status === 'authenticated' && snapshot.user) {
     return (
-      <aside className="legal-react-auth-panel" aria-label="Synchronized mock authentication">
-        <div>
-          <p className="legal-react-eyebrow">Shared auth state</p>
-          <h2>Signed in as {snapshot.user.name}</h2>
-          <p>
-            React is reading the same sessionStorage token and localStorage profile used by
-            Angular.
-          </p>
-        </div>
-        <button type="button" onClick={() => signOutMockUser()}>
-          Sign out from React
-        </button>
-      </aside>
+      <StatusPanel
+        eyebrow="Shared auth state"
+        title={`Signed in as ${snapshot.user.name}`}
+        ariaLabel="Synchronized mock authentication"
+        actions={
+          <PrimaryButton type="button" onClick={() => signOutMockUser()}>
+            Sign out from React
+          </PrimaryButton>
+        }
+      >
+        <p>
+          React is reading the same sessionStorage token and localStorage profile used by Angular.
+        </p>
+      </StatusPanel>
     );
   }
 
   if (snapshot.rememberedProfile) {
     return (
-      <aside className="legal-react-auth-panel" aria-label="Synchronized mock authentication">
-        <div>
-          <p className="legal-react-eyebrow">Shared auth state</p>
-          <h2>{snapshot.rememberedProfile.user.name} is remembered</h2>
-          <p>React can resume a mock session from the remembered localStorage profile.</p>
-        </div>
-        <button type="button" onClick={() => resumeMockSession()}>
-          Resume from React
-        </button>
-      </aside>
+      <StatusPanel
+        eyebrow="Shared auth state"
+        title={`${snapshot.rememberedProfile.user.name} is remembered`}
+        ariaLabel="Synchronized mock authentication"
+        actions={
+          <PrimaryButton type="button" onClick={() => resumeMockSession()}>
+            Resume from React
+          </PrimaryButton>
+        }
+      >
+        <p>React can resume a mock session from the remembered localStorage profile.</p>
+      </StatusPanel>
     );
   }
 
   return (
-    <aside className="legal-react-auth-panel" aria-label="Synchronized mock authentication">
-      <div>
-        <p className="legal-react-eyebrow">Shared auth state</p>
-        <h2>Viewing legal pages anonymously</h2>
-        <p>Sign in here to update Angular chrome and React content from the same auth store.</p>
-      </div>
-      <button type="button" onClick={() => signInMockUser({ rememberDevice: true })}>
-        Sign in from React
-      </button>
-    </aside>
+    <StatusPanel
+      eyebrow="Shared auth state"
+      title="Viewing legal pages anonymously"
+      ariaLabel="Synchronized mock authentication"
+      actions={
+        <PrimaryButton type="button" onClick={() => signInMockUser({ rememberDevice: true })}>
+          Sign in from React
+        </PrimaryButton>
+      }
+    >
+      <p>Sign in here to update Angular chrome and React content from the same auth store.</p>
+    </StatusPanel>
   );
 }

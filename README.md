@@ -2,7 +2,7 @@
 
 Drivewise is a demonstration car marketplace app built with Angular and mock data. It models a realistic product surface for learning, buying, and selling cars without authentication backends, real inventory APIs, or legally binding content.
 
-The app is also a migration playground. Angular owns the application shell, routing, header, footer, and most feature areas. The legal pages can be rendered by a React microfrontend package behind a feature flag, while the original Angular legal page remains available as a rollback path. The profile page is isolated in a standalone Angular microfrontend package to represent a legacy feature that can later be transitioned independently.
+The app is also a migration playground. Angular owns the application shell, routing, header, footer, and most feature areas. The legal pages can be rendered by a React microfrontend package behind a feature flag, while the original Angular legal page remains available as a rollback path. Shared React presentation primitives live in a fledgling UI package so future React microfrontends, and eventually the core app, can converge on the same patterns. The profile page is isolated in a standalone Angular microfrontend package to represent a legacy feature that can later be transitioned independently.
 
 ## Application Areas
 
@@ -16,8 +16,9 @@ The app is also a migration playground. Angular owns the application shell, rout
 ## Workspace Packages
 
 - `packages/auth-state`: shared mock authentication state package used by both Angular and React.
+- `packages/react-ui`: shared React UI primitives for document shells, notice cards, status panels, buttons, empty states, and style injection.
 - `packages/profile-angular`: standalone Angular profile microfrontend hosted by the Angular shell.
-- `packages/legal-react`: React legal-page microfrontend. Terms fetches mock data with React Query; Privacy receives Angular service data as props.
+- `packages/legal-react`: React legal-page microfrontend. Terms fetches mock data with React Query; Privacy receives Angular service data as props; common presentation comes from `packages/react-ui`.
 
 Generated package outputs and package-local installs are ignored:
 
@@ -52,7 +53,7 @@ Create a production build:
 npm run build
 ```
 
-This builds `@drivewise/auth-state`, `@drivewise/profile-angular`, `@drivewise/legal-react`, then the Angular app. Output is written to `dist/angular-project`.
+This builds `@drivewise/auth-state`, `@drivewise/profile-angular`, `@drivewise/react-ui`, `@drivewise/legal-react`, then the Angular app. Output is written to `dist/angular-project`.
 
 ## Test
 
@@ -66,6 +67,7 @@ This runs:
 
 - `@drivewise/auth-state` package tests
 - `@drivewise/profile-angular` package tests
+- `@drivewise/react-ui` package tests
 - `@drivewise/legal-react` package tests
 - Angular app tests
 
@@ -74,6 +76,7 @@ Package-specific tests are also available:
 ```bash
 npm run test:auth-state
 npm run test:profile-angular
+npm run test:react-ui
 npm run test:legal-react
 ```
 
@@ -86,4 +89,5 @@ React legal pages are enabled by default through `FeatureFlagsService`. Turning 
 - All inventory, offers, auth users, sessions, and legal content are mocked.
 - Legal pages are structured realistically, but their body content is lorem ipsum placeholder copy.
 - The app intentionally keeps Angular chrome around the React legal microfrontend to demonstrate incremental migration.
+- The React UI package is intentionally small and reusable, showing how React microfrontends can share UI patterns without depending on Angular shell internals.
 - The profile page keeps a legacy Angular feature isolated behind a workspace package boundary so it can be migrated later without reshaping the shell first.

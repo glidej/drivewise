@@ -1,15 +1,15 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ensureDrivewiseReactUiStyles } from '@drivewise/react-ui';
 import { createRoot, Root } from 'react-dom/client';
 
 import { LegalDocumentPage } from './LegalDocumentPage';
-import { ensureLegalReactStyles } from './legal-styles';
 import { LegalDocumentPageProps, LegalReactMount } from './types';
 
 export function mountLegalDocument(
   container: HTMLElement,
   initialProps: LegalDocumentPageProps,
 ): LegalReactMount {
-  ensureLegalReactStyles(container.ownerDocument);
+  ensureDrivewiseReactUiStyles(container.ownerDocument);
 
   const root = createRoot(container);
   const queryClient = new QueryClient({
