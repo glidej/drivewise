@@ -1,0 +1,130 @@
+<section class="sell-hero" aria-labelledby="sell-title">
+  <div>
+    <p class="eyebrow">Sell</p>
+    <h1 id="sell-title">Turn a vehicle profile into a mock seller offer.</h1>
+    <p>
+      This workflow models the seller side of a marketplace without authentication, user profiles,
+      or secured data. Every estimate and confirmation is generated locally from mock services.
+    </p>
+  </div>
+</section>
+
+<section class="sell-layout">
+  <form class="sell-form" [formGroup]="sellForm" (ngSubmit)="calculateOffer()">
+    <div class="section-heading compact">
+      <div>
+        <p class="eyebrow">Vehicle profile</p>
+        <h2>Tell us what you are selling</h2>
+      </div>
+    </div>
+
+    <div class="form-grid">
+      <label>
+        Year
+        <input type="number" formControlName="year" />
+      </label>
+
+      <label>
+        Make
+        <input type="text" formControlName="make" />
+      </label>
+
+      <label>
+        Model
+        <input type="text" formControlName="model" />
+      </label>
+
+      <label>
+        Mileage
+        <input type="number" formControlName="mileage" />
+      </label>
+
+      <label>
+        Condition
+        <select formControlName="condition">
+          @for (condition of conditionOptions; track condition) {
+            <option [ngValue]="condition">{{ condition }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        ZIP code
+        <input type="text" inputmode="numeric" formControlName="zipCode" />
+      </label>
+
+      <label>
+        Loan status
+        <select formControlName="loanStatus">
+          @for (loanStatus of loanStatusOptions; track loanStatus) {
+            <option [ngValue]="loanStatus">{{ loanStatus }}</option>
+          }
+        </select>
+      </label>
+    </div>
+
+    @if (error()) {
+      <p class="form-error">{{ error() }}</p>
+    }
+
+    <div class="button-row">
+      <button class="button" type="submit">Calculate mock offer</button>
+    </div>
+  </form>
+
+  <aside class="offer-panel" aria-live="polite">
+    @if (offer(); as offer) {
+      <p class="eyebrow">Mock offer</p>
+      <strong>{{ offer.instantOffer | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
+      <span>Instant offer estimate</span>
+      <span class="reference-id">Reference {{ offer.referenceId }}</span>
+
+      <div class="offer-range">
+        <p>Private party range</p>
+        <strong>
+          {{ offer.privatePartyRangeLow | currency: 'USD' : 'symbol' : '1.0-0' }} -
+          {{ offer.privatePartyRangeHigh | currency: 'USD' : 'symbol' : '1.0-0' }}
+        </strong>
+      </div>
+
+      <dl>
+        <div>
+          <dt>Demand score</dt>
+          <dd>{{ offer.demandScore }}/100</dd>
+        </div>
+        <div>
+          <dt>Condition adjustment</dt>
+          <dd>{{ offer.conditionAdjustment }}%</dd>
+        </div>
+      </dl>
+
+      <ul>
+        @for (step of offer.nextSteps; track step) {
+          <li>{{ step }}</li>
+        }
+      </ul>
+
+      <button class="button" type="button" [disabled]="submitting()" (click)="submitLead()">
+        Save mock offer
+      </button>
+
+      @if (confirmation(); as confirmation) {
+        <div class="confirmation-card">
+          <h3>{{ confirmation.status }}</h3>
+          <p>{{ confirmation.confirmationId }}</p>
+          <p>Next contact window: {{ confirmation.nextContactWindow }}</p>
+        </div>
+      }
+    } @else {
+      <p class="eyebrow">How it works</p>
+      <ol class="selling-steps">
+        @for (step of steps(); track step.title) {
+          <li>
+            <h3>{{ step.title }}</h3>
+            <p>{{ step.description }}</p>
+          </li>
+        }
+      </ol>
+    }
+  </aside>
+</section>

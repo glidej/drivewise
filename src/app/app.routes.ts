@@ -28,6 +28,11 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'sell',
+    loadComponent: () =>
+      import('./features/sell/sell.component').then((component) => component.SellComponent),
+  },
+  {
     path: '**',
     redirectTo: 'home',
   },
