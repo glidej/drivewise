@@ -13,14 +13,16 @@
     "prewatch": "npm run build:workspaces",
     "watch": "ng build --watch --configuration development",
     "pretest": "npm run build:workspaces",
-    "test": "npm run test:auth-state && npm run test:profile-angular && npm run test:legal-react && ng test",
+    "test": "npm run test:auth-state && npm run test:profile-angular && npm run test:react-ui && npm run test:legal-react && ng test",
     "build:auth-state": "npm run build -w @drivewise/auth-state",
     "build:profile-angular": "npm run build -w @drivewise/profile-angular",
+    "build:react-ui": "npm run build -w @drivewise/react-ui",
     "build:legal-react": "npm run build -w @drivewise/legal-react",
-    "build:workspaces": "npm run build:auth-state && npm run build:profile-angular && npm run build:legal-react",
+    "build:workspaces": "npm run build:auth-state && npm run build:profile-angular && npm run build:react-ui && npm run build:legal-react",
     "test:auth-state": "npm run test -w @drivewise/auth-state",
     "test:profile-angular": "npm run build:auth-state && npm run test -w @drivewise/profile-angular",
-    "test:legal-react": "npm run build:auth-state && npm run test -w @drivewise/legal-react"
+    "test:react-ui": "npm run test -w @drivewise/react-ui",
+    "test:legal-react": "npm run build:auth-state && npm run build:react-ui && npm run test -w @drivewise/legal-react"
   },
   "private": true,
   "packageManager": "npm@10.9.8",
@@ -34,6 +36,7 @@
     "@drivewise/auth-state": "^0.1.0",
     "@drivewise/legal-react": "^0.1.0",
     "@drivewise/profile-angular": "^0.1.0",
+    "@drivewise/react-ui": "^0.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
