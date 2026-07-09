@@ -1,0 +1,128 @@
+<section class="buy-hero" aria-labelledby="buy-title">
+  <div>
+    <p class="eyebrow">Buy</p>
+    <h1 id="buy-title">Search realistic mock inventory.</h1>
+    <p>
+      Results are powered by the InventoryService so the UI already has a clean seam for future
+      latency, empty states, and simulated API errors.
+    </p>
+  </div>
+</section>
+
+<section class="buy-layout">
+  <form class="filters-panel" (ngSubmit)="runSearch()" aria-label="Inventory filters">
+    <div>
+      <p class="eyebrow">Filters</p>
+      <h2>Find your fit</h2>
+    </div>
+
+    <label>
+      Search
+      <input
+        type="search"
+        name="query"
+        placeholder="Make, model, feature"
+        [(ngModel)]="filters.query"
+      />
+    </label>
+
+    <label>
+      Body style
+      <select name="bodyStyle" [(ngModel)]="filters.bodyStyle">
+        @for (bodyStyle of bodyStyles; track bodyStyle) {
+          <option [ngValue]="bodyStyle">{{ bodyStyle }}</option>
+        }
+      </select>
+    </label>
+
+    <label>
+      Fuel type
+      <select name="fuelType" [(ngModel)]="filters.fuelType">
+        @for (fuelType of fuelTypes; track fuelType) {
+          <option [ngValue]="fuelType">{{ fuelType }}</option>
+        }
+      </select>
+    </label>
+
+    <label>
+      Max price
+      <input type="number" min="0" step="1000" name="maxPrice" [(ngModel)]="filters.maxPrice" />
+    </label>
+
+    <label>
+      Max mileage
+      <input type="number" min="0" step="1000" name="maxMileage" [(ngModel)]="filters.maxMileage" />
+    </label>
+
+    <label>
+      Minimum year
+      <input type="number" min="2000" step="1" name="minYear" [(ngModel)]="filters.minYear" />
+    </label>
+
+    <div class="button-row">
+      <button class="button" type="submit">Search cars</button>
+      <button class="button-secondary" type="button" (click)="resetFilters()">Reset</button>
+    </div>
+  </form>
+
+  <div class="results-panel" aria-live="polite">
+    <div class="results-heading">
+      <div>
+        <p class="eyebrow">Results</p>
+        <h2>{{ vehicles().length }} mock vehicles</h2>
+      </div>
+      @if (loading()) {
+        <span>Loading inventory...</span>
+      }
+    </div>
+
+    @if (error()) {
+      <div class="state-card error-state">{{ error() }}</div>
+    } @else if (vehicles().length === 0) {
+      <div class="state-card">
+        <h3>No matches yet</h3>
+        <p>Try widening your budget, mileage, or body style filters.</p>
+      </div>
+    } @else {
+      <div class="result-list">
+        @for (vehicle of vehicles(); track trackVehicle($index, vehicle)) {
+          <article class="result-card">
+            <img [src]="vehicle.imageUrl" [alt]="vehicle.imageAlt" />
+            <div class="result-card-body">
+              <div class="result-title">
+                <div>
+                  <p>{{ vehicle.year }} {{ vehicle.make }}</p>
+                  <h3>{{ vehicle.model }} {{ vehicle.trim }}</h3>
+                </div>
+                <strong>{{ vehicle.price | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
+              </div>
+
+              <dl class="vehicle-facts">
+                <div>
+                  <dt>Mileage</dt>
+                  <dd>{{ vehicle.mileage | number }} mi</dd>
+                </div>
+                <div>
+                  <dt>Fuel</dt>
+                  <dd>{{ vehicle.fuelType }}</dd>
+                </div>
+                <div>
+                  <dt>Location</dt>
+                  <dd>{{ vehicle.location.city }}, {{ vehicle.location.state }}</dd>
+                </div>
+              </dl>
+
+              <div class="tag-row">
+                @for (tag of vehicle.tags; track tag) {
+                  <span>{{ tag }}</span>
+                }
+              </div>
+
+              <a class="details-link" [routerLink]="['/buy', vehicle.id]">View details</a>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </div>
+</section>

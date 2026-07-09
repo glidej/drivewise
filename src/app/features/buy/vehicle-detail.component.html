@@ -1,0 +1,77 @@
+@if (vehicle(); as vehicle) {
+  <article class="detail-page">
+    <a class="back-link" routerLink="/buy">Back to inventory</a>
+
+    <section class="detail-hero">
+      <img [src]="vehicle.imageUrl" [alt]="vehicle.imageAlt" />
+      <div class="detail-summary">
+        <p class="eyebrow">{{ vehicle.year }} {{ vehicle.make }}</p>
+        <h1>{{ vehicle.model }} {{ vehicle.trim }}</h1>
+        <strong>{{ vehicle.price | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
+        <p>{{ vehicle.sellerNotes }}</p>
+
+        <dl>
+          <div>
+            <dt>Mileage</dt>
+            <dd>{{ vehicle.mileage | number }} mi</dd>
+          </div>
+          <div>
+            <dt>Fuel</dt>
+            <dd>{{ vehicle.fuelType }}</dd>
+          </div>
+          <div>
+            <dt>Drivetrain</dt>
+            <dd>{{ vehicle.drivetrain }}</dd>
+          </div>
+          <div>
+            <dt>Location</dt>
+            <dd>{{ vehicle.location.city }}, {{ vehicle.location.state }}</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="detail-grid">
+      <div class="detail-card">
+        <p class="eyebrow">Features</p>
+        <ul>
+          @for (feature of vehicle.features; track feature) {
+            <li>{{ feature }}</li>
+          }
+        </ul>
+      </div>
+
+      <div class="detail-card">
+        <p class="eyebrow">Vehicle history</p>
+        <dl>
+          <div>
+            <dt>Owners</dt>
+            <dd>{{ vehicle.history.owners }}</dd>
+          </div>
+          <div>
+            <dt>Accident-free</dt>
+            <dd>{{ vehicle.history.accidentFree ? 'Yes' : 'No' }}</dd>
+          </div>
+          <div>
+            <dt>Service records</dt>
+            <dd>{{ vehicle.history.serviceRecords }}</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="detail-card">
+        <p class="eyebrow">Dealer</p>
+        <h2>{{ vehicle.dealerName }}</h2>
+        <p>{{ vehicle.rating }} / 5 rating · {{ vehicle.location.distanceMiles }} miles away</p>
+        <p>Stock {{ vehicle.stockNumber }} · VIN {{ vehicle.vin }}</p>
+      </div>
+    </section>
+  </article>
+} @else {
+  <section class="missing-state" aria-labelledby="missing-title">
+    <p class="eyebrow">Vehicle not found</p>
+    <h1 id="missing-title">That mock listing is not in inventory.</h1>
+    <p>It may have been filtered out of the demo data or the URL may be wrong.</p>
+    <a class="button" routerLink="/buy">Return to inventory</a>
+  </section>
+}

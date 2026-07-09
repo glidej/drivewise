@@ -17,6 +17,17 @@ export const routes: Routes = [
       import('./features/learn/learn.component').then((component) => component.LearnComponent),
   },
   {
+    path: 'buy',
+    loadComponent: () => import('./features/buy/buy.component').then((component) => component.BuyComponent),
+  },
+  {
+    path: 'buy/:id',
+    loadComponent: () =>
+      import('./features/buy/vehicle-detail.component').then(
+        (component) => component.VehicleDetailComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: 'home',
   },
