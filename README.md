@@ -20,6 +20,38 @@ The app is also a migration playground. Angular owns the application shell, rout
 - `packages/profile-angular`: standalone Angular profile microfrontend hosted by the Angular shell.
 - `packages/legal-react`: React legal-page microfrontend. Terms fetches mock data with React Query; Privacy receives Angular service data as props; common presentation comes from `packages/react-ui`.
 
+## Microfrontend Nesting
+
+Angular owns the route shell, navigation, header, footer, and feature-flag decisions. Microfrontends sit behind Angular host wrappers that translate route state and service data into package mount/update/unmount calls.
+
+```text
+Angular application shell
+|-- Header / navigation
+|-- Router outlet
+|   |-- /learn, /buy, /sell
+|   |   `-- Angular feature components
+|   |-- /profile
+|   |   `-- ProfilePageHostComponent
+|   |       `-- host mount point
+|   |           `-- @drivewise/profile-angular
+|   |               `-- ProfileAppComponent
+|   `-- /terms, /privacy
+|       `-- LegalPageHostComponent
+|           |-- Angular service data and feature flag
+|           |-- Angular fallback: LegalDocumentComponent
+|           `-- ReactLegalHostComponent
+|               `-- host mount point
+|                   `-- @drivewise/legal-react
+|                       |-- LegalDocumentPage
+|                       |-- React Query terms service
+|                       `-- @drivewise/react-ui primitives
+|-- Footer
+`-- Shared browser state
+    `-- @drivewise/auth-state
+        |-- localStorage remembered profile
+        `-- sessionStorage mock session
+```
+
 Generated package outputs and package-local installs are ignored:
 
 - `packages/*/dist`
