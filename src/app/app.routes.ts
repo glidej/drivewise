@@ -33,6 +33,13 @@ export const routes: Routes = [
       import('./features/sell/sell.component').then((component) => component.SellComponent),
   },
   {
+    path: 'profile',
+    loadComponent: () =>
+      import('./features/profile/profile-page-host.component').then(
+        (component) => component.ProfilePageHostComponent,
+      ),
+  },
+  {
     path: 'terms',
     loadComponent: () =>
       import('./features/legal/legal-page-host.component').then(

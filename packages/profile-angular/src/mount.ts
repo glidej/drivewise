@@ -16,6 +16,7 @@ export async function mountProfileApp(container: HTMLElement): Promise<ProfileAn
     hostElement: container,
   });
   appRef.attachView(componentRef.hostView);
+  appRef.tick();
 
   return {
     unmount(): void {

@@ -22,6 +22,7 @@ export class App {
     { label: 'Learn', path: '/learn' },
     { label: 'Buy', path: '/buy' },
     { label: 'Sell', path: '/sell' },
+    { label: 'Profile', path: '/profile' },
   ];
 
   protected readonly footerLinks: NavItem[] = [
