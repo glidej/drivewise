@@ -1,0 +1,50 @@
+<section class="home-hero" aria-labelledby="home-title">
+  <div class="hero-copy">
+    <p class="eyebrow">Car buying demo</p>
+    <h1 id="home-title">Shop, learn, and sell with a fully mocked marketplace.</h1>
+    <p>
+      Drivewise is a demonstration app with realistic inventory, marketing content, and seller
+      workflows powered by isolated mock services.
+    </p>
+    <div class="button-row">
+      <a class="button" routerLink="/buy">Browse inventory</a>
+      <a class="button-secondary" routerLink="/sell">Start a seller offer</a>
+    </div>
+  </div>
+
+  <div class="hero-panel" aria-label="Marketplace snapshot">
+    @for (stat of marketplaceStats; track stat.label) {
+      <div>
+        <strong>{{ stat.value }}</strong>
+        <span>{{ stat.label }}</span>
+      </div>
+    }
+  </div>
+</section>
+
+<section class="featured-section" aria-labelledby="featured-title">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Featured inventory</p>
+      <h2 id="featured-title">Fresh picks from the mock lot</h2>
+    </div>
+    <a routerLink="/buy">View all</a>
+  </div>
+
+  <div class="vehicle-grid">
+    @for (vehicle of featuredVehicles(); track vehicle.id) {
+      <article class="vehicle-card">
+        <img [src]="vehicle.imageUrl" [alt]="vehicle.imageAlt" />
+        <div>
+          <p class="vehicle-kicker">{{ vehicle.year }} {{ vehicle.make }}</p>
+          <h3>{{ vehicle.model }} {{ vehicle.trim }}</h3>
+          <p class="vehicle-meta">
+            {{ vehicle.mileage | number }} mi · {{ vehicle.fuelType }} ·
+            {{ vehicle.location.city }}, {{ vehicle.location.state }}
+          </p>
+          <strong>{{ vehicle.price | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
+        </div>
+      </article>
+    }
+  </div>
+</section>
