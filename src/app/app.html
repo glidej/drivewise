@@ -26,7 +26,15 @@
   </main>
 
   <footer class="site-footer">
-    <span>Demo data only</span>
-    <span>Inventory, offers, and customer activity are mocked.</span>
+    <div>
+      <strong>Demo data only</strong>
+      <span>Inventory, offers, legal content, and customer activity are mocked.</span>
+    </div>
+
+    <nav aria-label="Legal navigation">
+      @for (link of footerLinks; track link.path) {
+        <a [routerLink]="link.path">{{ link.label }}</a>
+      }
+    </nav>
   </footer>
 </div>

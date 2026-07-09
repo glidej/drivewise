@@ -18,4 +18,9 @@ export class App {
     { label: 'Buy', path: '/buy' },
     { label: 'Sell', path: '/sell' },
   ];
+
+  protected readonly footerLinks: NavItem[] = [
+    { label: 'Terms of Service', path: '/terms' },
+    { label: 'Privacy Policy', path: '/privacy' },
+  ];
 }

@@ -33,6 +33,22 @@ export const routes: Routes = [
       import('./features/sell/sell.component').then((component) => component.SellComponent),
   },
   {
+    path: 'terms',
+    loadComponent: () =>
+      import('./features/legal/legal-document.component').then(
+        (component) => component.LegalDocumentComponent,
+      ),
+    data: { documentId: 'terms' },
+  },
+  {
+    path: 'privacy',
+    loadComponent: () =>
+      import('./features/legal/legal-document.component').then(
+        (component) => component.LegalDocumentComponent,
+      ),
+    data: { documentId: 'privacy' },
+  },
+  {
     path: '**',
     redirectTo: 'home',
   },

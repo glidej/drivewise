@@ -1,0 +1,56 @@
+@if (document(); as document) {
+  <article class="legal-page">
+    <header class="legal-hero">
+      <p class="eyebrow">{{ document.eyebrow }}</p>
+      <h1>{{ document.title }}</h1>
+      <p>{{ document.summary }}</p>
+
+      <dl>
+        <div>
+          <dt>Effective date</dt>
+          <dd>{{ document.effectiveDate | date: 'mediumDate' }}</dd>
+        </div>
+        <div>
+          <dt>Last updated</dt>
+          <dd>{{ document.lastUpdated | date: 'mediumDate' }}</dd>
+        </div>
+      </dl>
+    </header>
+
+    <aside class="demo-disclaimer" aria-label="Demo disclaimer">
+      <strong>Placeholder content</strong>
+      <p>
+        This page is intentionally structured like a real legal document, but the body copy is
+        lorem ipsum placeholder text for demonstration only.
+      </p>
+    </aside>
+
+    <div class="legal-layout">
+      <nav class="section-nav" aria-label="Document sections">
+        @for (section of document.sections; track section.heading) {
+          <a [href]="'#' + section.heading.toLowerCase().replaceAll(' ', '-')">
+            {{ section.heading }}
+          </a>
+        }
+      </nav>
+
+      <div class="section-list">
+        @for (section of document.sections; track section.heading) {
+          <section [id]="section.heading.toLowerCase().replaceAll(' ', '-')">
+            <h2>{{ section.heading }}</h2>
+            @for (paragraph of section.body; track paragraph) {
+              <p>{{ paragraph }}</p>
+            }
+          </section>
+        }
+      </div>
+    </div>
+  </article>
+} @else {
+  <section class="legal-missing">
+    <p class="eyebrow">Document not found</p>
+    <h1>That legal page is not available.</h1>
+    <p>Return home or use the footer links to open another placeholder document.</p>
+    <a class="button" routerLink="/home">Back home</a>
+  </section>
+}
