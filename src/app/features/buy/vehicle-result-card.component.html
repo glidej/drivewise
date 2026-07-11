@@ -1,49 +1,128 @@
-<article class="result-card" [class.result-card--highlighted]="vehicle.highlighted">
+<article
+  class="result-card"
+  [class.result-card--highlighted]="vehicle().highlighted"
+  [class.result-card--price-drop]="activity().marketSignal === 'price-drop'"
+  [class.result-card--reserved]="activity().marketSignal === 'reserved'"
+>
   <div class="result-media">
-    <img [src]="vehicle.imageUrl" [alt]="vehicle.imageAlt" loading="lazy" />
+    <img [src]="vehicle().imageUrl" [alt]="vehicle().imageAlt" loading="lazy" />
 
-    @if (vehicle.highlighted) {
+    @if (vehicle().highlighted) {
       <span class="result-badge">Featured match</span>
     }
 
-    <span class="result-media-meta">{{ vehicle.bodyStyle }} - {{ vehicle.drivetrain }}</span>
+    <span class="result-media-meta">{{ vehicle().bodyStyle }} - {{ vehicle().drivetrain }}</span>
   </div>
 
   <div class="result-card-body">
     <div class="result-title">
       <div>
-        <p>{{ vehicle.year }} {{ vehicle.make }}</p>
-        <h3>{{ vehicle.model }} {{ vehicle.trim }}</h3>
-        <span>{{ vehicle.dealerName }} - Rated {{ vehicle.rating }}</span>
+        <p>{{ vehicle().year }} {{ vehicle().make }}</p>
+        <h3>{{ vehicle().model }} {{ vehicle().trim }}</h3>
+        <span>{{ vehicle().dealerName }} - Rated {{ vehicle().rating }}</span>
       </div>
-      <strong>{{ vehicle.price | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
+      <strong>{{ vehicle().price | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
     </div>
 
     <dl class="vehicle-facts">
       <div>
         <dt>Mileage</dt>
-        <dd>{{ vehicle.mileage | number }} mi</dd>
+        <dd>{{ vehicle().mileage | number }} mi</dd>
       </div>
       <div>
         <dt>Fuel</dt>
-        <dd>{{ vehicle.fuelType }}</dd>
+        <dd>{{ vehicle().fuelType }}</dd>
       </div>
       <div>
         <dt>Location</dt>
-        <dd>{{ vehicle.location.city }}, {{ vehicle.location.state }}</dd>
+        <dd>{{ vehicle().location.city }}, {{ vehicle().location.state }}</dd>
       </div>
       <div>
         <dt>Distance</dt>
-        <dd>{{ vehicle.location.distanceMiles }} mi away</dd>
+        <dd>{{ vehicle().location.distanceMiles }} mi away</dd>
       </div>
     </dl>
 
+    <section class="live-activity" aria-label="Live dealer activity">
+      <div class="live-activity-header">
+        <div>
+          <p>Mock websocket</p>
+          @switch (activity().connection) {
+            @case ('connecting') {
+              <h4>Connecting to dealer activity</h4>
+            }
+            @case ('reconnecting') {
+              <h4>Reconnecting to dealer activity</h4>
+            }
+            @default {
+              <h4>Live dealer activity</h4>
+            }
+          }
+        </div>
+        <span class="socket-dot" [class.socket-dot--live]="activity().connection === 'live'"></span>
+      </div>
+
+      @switch (activity().marketSignal) {
+        @case ('price-drop') {
+          <p class="market-callout market-callout--price-drop">
+            {{ activitySummary() }}:
+            {{ activity().priceDelta | currency: 'USD' : 'symbol' : '1.0-0' }} since opening.
+          </p>
+        }
+        @case ('high-demand') {
+          <p class="market-callout market-callout--hot">
+            {{ activitySummary() }} with {{ activity().watchers | number }} active watchers.
+          </p>
+        }
+        @case ('reserved') {
+          <p class="market-callout market-callout--reserved">
+            {{ activitySummary() }} changed the availability signal.
+          </p>
+        }
+        @default {
+          <p class="market-callout">{{ activitySummary() }} from the mocked dealer feed.</p>
+        }
+      }
+
+      <dl class="live-metrics">
+        <div>
+          <dt>Watching</dt>
+          <dd>{{ activity().watchers | number }}</dd>
+        </div>
+        <div>
+          <dt>Saves today</dt>
+          <dd>{{ activity().savesToday | number }}</dd>
+        </div>
+        <div>
+          <dt>Price pulse</dt>
+          <dd>{{ activity().priceDelta | currency: 'USD' : 'symbol' : '1.0-0' }}</dd>
+        </div>
+      </dl>
+
+      <button class="activity-toggle" type="button" (click)="toggleActivity()">
+        {{ activityExpanded() ? 'Hide live feed' : 'Show live feed' }}
+      </button>
+
+      @if (activityExpanded()) {
+        <ol class="activity-feed">
+          @for (event of activity().recentEvents; track event.id) {
+            <li class="activity-feed-item activity-feed-item--{{ event.kind }}">
+              <span>{{ event.label }}</span>
+              <small>event {{ event.sequence }}</small>
+            </li>
+          } @empty {
+            <li class="activity-feed-empty">Waiting for the first dealer event.</li>
+          }
+        </ol>
+      }
+    </section>
+
     <div class="tag-row">
-      @for (tag of vehicle.tags; track tag) {
+      @for (tag of vehicle().tags; track tag) {
         <span>{{ tag }}</span>
       }
     </div>
 
-    <a class="details-link" [routerLink]="['/buy', vehicle.id]">View details</a>
+    <a class="details-link" [routerLink]="['/buy', vehicle().id]">View details</a>
   </div>
 </article>
