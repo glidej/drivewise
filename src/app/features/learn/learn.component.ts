@@ -10,7 +10,7 @@ import { LearningService } from '../../core/services/learning.service';
   selector: 'app-learn',
   imports: [CurrencyPipe, FormsModule, RouterLink],
   templateUrl: './learn.component.html',
-  styleUrl: './learn.component.css',
+  styleUrl: './learn.component.scss',
 })
 export class LearnComponent {
   private readonly learningService = inject(LearningService);

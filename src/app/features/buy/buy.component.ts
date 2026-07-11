@@ -19,7 +19,7 @@ interface BuyFormFilters {
   selector: 'app-buy',
   imports: [FormsModule, VehicleResultCardComponent],
   templateUrl: './buy.component.html',
-  styleUrl: './buy.component.css',
+  styleUrl: './buy.component.scss',
 })
 export class BuyComponent {
   private readonly inventoryService = inject(InventoryService);

@@ -1,10 +1,20 @@
-<article class="result-card">
-  <img [src]="vehicle.imageUrl" [alt]="vehicle.imageAlt" />
+<article class="result-card" [class.result-card--highlighted]="vehicle.highlighted">
+  <div class="result-media">
+    <img [src]="vehicle.imageUrl" [alt]="vehicle.imageAlt" loading="lazy" />
+
+    @if (vehicle.highlighted) {
+      <span class="result-badge">Featured match</span>
+    }
+
+    <span class="result-media-meta">{{ vehicle.bodyStyle }} - {{ vehicle.drivetrain }}</span>
+  </div>
+
   <div class="result-card-body">
     <div class="result-title">
       <div>
         <p>{{ vehicle.year }} {{ vehicle.make }}</p>
         <h3>{{ vehicle.model }} {{ vehicle.trim }}</h3>
+        <span>{{ vehicle.dealerName }} - Rated {{ vehicle.rating }}</span>
       </div>
       <strong>{{ vehicle.price | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
     </div>
@@ -21,6 +31,10 @@
       <div>
         <dt>Location</dt>
         <dd>{{ vehicle.location.city }}, {{ vehicle.location.state }}</dd>
+      </div>
+      <div>
+        <dt>Distance</dt>
+        <dd>{{ vehicle.location.distanceMiles }} mi away</dd>
       </div>
     </dl>
 

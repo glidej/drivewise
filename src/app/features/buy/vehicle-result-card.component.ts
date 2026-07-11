@@ -8,7 +8,7 @@ import { Vehicle } from '../../core/models/vehicle';
   selector: 'app-vehicle-result-card',
   imports: [CurrencyPipe, DecimalPipe, RouterLink],
   templateUrl: './vehicle-result-card.component.html',
-  styleUrl: './vehicle-result-card.component.css',
+  styleUrl: './vehicle-result-card.component.scss',
 })
 export class VehicleResultCardComponent {
   @Input({ required: true }) vehicle!: Vehicle;

@@ -9,7 +9,7 @@ import { InventoryService } from '../../core/services/inventory.service';
   selector: 'app-home',
   imports: [CurrencyPipe, DecimalPipe, RouterLink],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent {
   private readonly inventoryService = inject(InventoryService);

@@ -20,7 +20,7 @@ import { SellingService } from '../../core/services/selling.service';
   selector: 'app-sell',
   imports: [CurrencyPipe, ReactiveFormsModule],
   templateUrl: './sell.component.html',
-  styleUrl: './sell.component.css',
+  styleUrl: './sell.component.scss',
 })
 export class SellComponent {
   private readonly fb = inject(NonNullableFormBuilder);

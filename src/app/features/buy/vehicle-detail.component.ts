@@ -10,7 +10,7 @@ import { InventoryService } from '../../core/services/inventory.service';
   selector: 'app-vehicle-detail',
   imports: [CurrencyPipe, DecimalPipe, RouterLink],
   templateUrl: './vehicle-detail.component.html',
-  styleUrl: './vehicle-detail.component.css',
+  styleUrl: './vehicle-detail.component.scss',
 })
 export class VehicleDetailComponent {
   private readonly route = inject(ActivatedRoute);

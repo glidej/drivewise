@@ -11,7 +11,7 @@ import { LegalDocumentService } from '../../core/services/legal-document.service
   selector: 'app-legal-document',
   imports: [DatePipe, RouterLink],
   templateUrl: './legal-document.component.html',
-  styleUrl: './legal-document.component.css',
+  styleUrl: './legal-document.component.scss',
 })
 export class LegalDocumentComponent {
   private readonly route = inject(ActivatedRoute);

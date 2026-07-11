@@ -27,9 +27,14 @@ describe('VehicleResultCardComponent', () => {
     expect(compiled.textContent).toContain('18,200 mi');
     expect(compiled.textContent).toContain('Hybrid');
     expect(compiled.textContent).toContain('Ann Arbor, MI');
+    expect(compiled.textContent).toContain('18 mi away');
+    expect(compiled.textContent).toContain('Drivewise Ann Arbor');
+    expect(compiled.textContent).toContain('Rated 4.8');
+    expect(compiled.textContent).toContain('Featured match');
     expect(compiled.textContent).toContain('Certified');
     expect(image?.getAttribute('src')).toBe(vehicle.imageUrl);
     expect(image?.getAttribute('alt')).toBe(vehicle.imageAlt);
+    expect(image?.getAttribute('loading')).toBe('lazy');
     expect(detailsLink?.getAttribute('href')).toBe('/buy/rav4-hybrid-xse');
   });
 });

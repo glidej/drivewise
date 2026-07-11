@@ -12,7 +12,7 @@ interface NavItem {
   selector: 'app-root',
   imports: [RouterLink, RouterLinkActive, RouterOutlet],
   templateUrl: './app.html',
-  styleUrl: './app.css',
+  styleUrl: './app.scss',
 })
 export class App {
   private readonly authService = inject(AuthService);
