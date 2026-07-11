@@ -3,6 +3,7 @@ import { provideRouter } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { vi } from 'vitest';
 
+import { VehicleBidSummary } from '../../core/models/bid';
 import { Vehicle } from '../../core/models/vehicle';
 import {
   VehicleActivityState,
@@ -101,6 +102,23 @@ describe('VehicleResultCardComponent', () => {
     expect(compiled.textContent).toContain('Dealer price moved $650');
     expect(compiled.textContent).toContain('event 7');
   });
+
+  it('renders bid-list specific state inside the reusable card', () => {
+    const fixture = TestBed.createComponent(VehicleResultCardComponent);
+    fixture.componentRef.setInput('vehicle', vehicle);
+    fixture.componentRef.setInput('mode', 'bid-list');
+    fixture.componentRef.setInput('bid', outbidSummary);
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    expect(compiled.textContent).toContain('Bid desk');
+    expect(compiled.textContent).toContain('Your bid needs attention');
+    expect(compiled.textContent).toContain('Outbid');
+    expect(compiled.textContent).toContain('$27,600');
+    expect(compiled.textContent).toContain('#2 of 4');
+    expect(compiled.textContent).toContain('Increase by at least $1,250');
+  });
 });
 
 const liveActivityState: VehicleActivityState = {
@@ -158,4 +176,15 @@ const vehicle: Vehicle = {
   },
   sellerNotes: 'A clean mock vehicle for component tests.',
   highlighted: true,
+};
+
+const outbidSummary: VehicleBidSummary = {
+  id: 'bid-rav4-outbid',
+  amount: 27600,
+  maxAutoBid: 28600,
+  status: 'outbid',
+  placedAt: '2026-07-09T21:45:00.000Z',
+  expiresAt: '2026-07-11T22:15:00.000Z',
+  competingBids: 3,
+  rank: 2,
 };

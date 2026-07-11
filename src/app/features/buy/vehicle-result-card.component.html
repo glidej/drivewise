@@ -43,6 +43,83 @@
       </div>
     </dl>
 
+    @if (showBidSummary(); as bid) {
+      <section
+        class="bid-summary"
+        [class.bid-summary--winning]="bid.status === 'winning'"
+        [class.bid-summary--outbid]="bid.status === 'outbid'"
+        [class.bid-summary--countered]="bid.status === 'countered'"
+        aria-label="Bid summary"
+      >
+        <div class="bid-summary-header">
+          <div>
+            <p>Bid desk</p>
+            @switch (bid.status) {
+              @case ('winning') {
+                <h4>You are leading this bid</h4>
+              }
+              @case ('outbid') {
+                <h4>Your bid needs attention</h4>
+              }
+              @case ('countered') {
+                <h4>Dealer sent a counteroffer</h4>
+              }
+              @default {
+                <h4>You are watching this bid</h4>
+              }
+            }
+          </div>
+          <strong>{{ bidStatusLabel(bid.status) }}</strong>
+        </div>
+
+        <dl class="bid-metrics">
+          <div>
+            <dt>Your bid</dt>
+            <dd>{{ bid.amount | currency: 'USD' : 'symbol' : '1.0-0' }}</dd>
+          </div>
+          <div>
+            <dt>Max auto bid</dt>
+            <dd>{{ bid.maxAutoBid | currency: 'USD' : 'symbol' : '1.0-0' }}</dd>
+          </div>
+          <div>
+            <dt>Bid rank</dt>
+            <dd>#{{ bid.rank }} of {{ bid.competingBids + 1 }}</dd>
+          </div>
+          <div>
+            <dt>Expires</dt>
+            <dd>{{ bid.expiresAt | date: 'MMM d, h:mm a' }}</dd>
+          </div>
+        </dl>
+
+        @switch (bid.status) {
+          @case ('outbid') {
+            <p class="bid-guidance bid-guidance--urgent">
+              Another shopper moved ahead. Increase by at least
+              {{ (bidBuffer() + 250) | currency: 'USD' : 'symbol' : '1.0-0' }} to challenge.
+            </p>
+          }
+          @case ('countered') {
+            <p class="bid-guidance bid-guidance--counter">
+              Dealer counter:
+              {{ (bid.dealerCounterOffer ?? bid.amount) | currency: 'USD' : 'symbol' : '1.0-0' }}.
+              Accept or keep your current max bid.
+            </p>
+          }
+          @case ('winning') {
+            <p class="bid-guidance">
+              Your auto-bid buffer is
+              {{ bidBuffer() | currency: 'USD' : 'symbol' : '1.0-0' }} above the current bid.
+            </p>
+          }
+          @default {
+            <p class="bid-guidance">
+              Bid placed {{ bid.placedAt | date: 'MMM d' }}. We are watching dealer updates.
+            </p>
+          }
+        }
+      </section>
+    }
+
     <section class="live-activity" aria-label="Live dealer activity">
       <div class="live-activity-header">
         <div>

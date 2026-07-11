@@ -1,0 +1,32 @@
+<section class="bids-hero" aria-labelledby="bids-title">
+  <div>
+    <p class="eyebrow">Bids</p>
+    <h1 id="bids-title">Track active mock vehicle bids.</h1>
+    <p>
+      This app-owned feature reuses the buy result card with bid-list-specific inputs, making the
+      card carry another conditional presentation mode without moving it into a package.
+    </p>
+  </div>
+</section>
+
+<section class="bids-panel" aria-live="polite">
+  <div class="bids-heading">
+    <div>
+      <p class="eyebrow">Bid list</p>
+      <h2>{{ bids().length }} active bids</h2>
+    </div>
+  </div>
+
+  @if (bids().length === 0) {
+    <div class="empty-state">
+      <h3>No active bids</h3>
+      <p>Place a mock bid from a vehicle detail page to see it tracked here.</p>
+    </div>
+  } @else {
+    <div class="bid-card-list">
+      @for (bid of bids(); track bid.id) {
+        <app-vehicle-result-card mode="bid-list" [vehicle]="bid.vehicle" [bid]="bid" />
+      }
+    </div>
+  }
+</section>

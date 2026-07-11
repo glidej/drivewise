@@ -32,6 +32,7 @@ describe('App', () => {
     expect(navText).toContain('Learn');
     expect(navText).toContain('Buy');
     expect(navText).toContain('Sell');
+    expect(navText).toContain('Bids');
     expect(navText).toContain('Profile');
     expect(compiled.textContent).toContain('Terms of Service');
     expect(compiled.textContent).toContain('Privacy Policy');

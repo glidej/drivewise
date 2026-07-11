@@ -22,6 +22,7 @@ export class App {
     { label: 'Learn', path: '/learn' },
     { label: 'Buy', path: '/buy' },
     { label: 'Sell', path: '/sell' },
+    { label: 'Bids', path: '/bids' },
     { label: 'Profile', path: '/profile' },
   ];
 
