@@ -26,7 +26,7 @@ describe('mountLegalDocument', () => {
     });
     await waitForText(container, 'Terms of Service');
 
-    expect(document.getElementById('drivewise-react-ui-styles')).toBeTruthy();
+    expect(document.head.querySelector('style[data-styled]')).toBeTruthy();
 
     await act(async () => {
       mounted!.update({

@@ -1,5 +1,4 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ensureDrivewiseReactUiStyles } from '@drivewise/react-ui';
 import { createRoot, Root } from 'react-dom/client';
 
 import { LegalDocumentPage } from './LegalDocumentPage';
@@ -9,8 +8,6 @@ export function mountLegalDocument(
   container: HTMLElement,
   initialProps: LegalDocumentPageProps,
 ): LegalReactMount {
-  ensureDrivewiseReactUiStyles(container.ownerDocument);
-
   const root = createRoot(container);
   const queryClient = new QueryClient({
     defaultOptions: {

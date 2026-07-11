@@ -8,7 +8,6 @@ import {
   NoticeCard,
   PrimaryButton,
   StatusPanel,
-  ensureDrivewiseReactUiStyles,
   sectionId,
 } from './index';
 
@@ -20,7 +19,6 @@ describe('react-ui components', () => {
   afterEach(() => {
     container?.remove();
     container = undefined;
-    document.getElementById('drivewise-react-ui-styles')?.remove();
   });
 
   it('renders a document page with metadata, section navigation, and slugs', async () => {
@@ -66,6 +64,7 @@ describe('react-ui components', () => {
     expect(container.textContent).toContain('Signed in as Taylor Brooks');
     expect(container.querySelector('a[href="#information-we-collect"]')).toBeTruthy();
     expect(container.querySelector('#mock-data-and-demonstration-records')).toBeTruthy();
+    expect(document.head.querySelector('style[data-styled]')).toBeTruthy();
 
     await act(async () => root.unmount());
   });
@@ -88,13 +87,6 @@ describe('react-ui components', () => {
     expect(container.textContent).toContain('Fetching mocked data.');
 
     await act(async () => root.unmount());
-  });
-
-  it('injects shared styles once per document', () => {
-    ensureDrivewiseReactUiStyles(document);
-    ensureDrivewiseReactUiStyles(document);
-
-    expect(document.querySelectorAll('#drivewise-react-ui-styles')).toHaveLength(1);
   });
 
   it('creates stable section ids from headings', () => {
