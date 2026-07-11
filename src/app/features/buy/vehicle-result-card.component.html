@@ -1,0 +1,35 @@
+<article class="result-card">
+  <img [src]="vehicle.imageUrl" [alt]="vehicle.imageAlt" />
+  <div class="result-card-body">
+    <div class="result-title">
+      <div>
+        <p>{{ vehicle.year }} {{ vehicle.make }}</p>
+        <h3>{{ vehicle.model }} {{ vehicle.trim }}</h3>
+      </div>
+      <strong>{{ vehicle.price | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
+    </div>
+
+    <dl class="vehicle-facts">
+      <div>
+        <dt>Mileage</dt>
+        <dd>{{ vehicle.mileage | number }} mi</dd>
+      </div>
+      <div>
+        <dt>Fuel</dt>
+        <dd>{{ vehicle.fuelType }}</dd>
+      </div>
+      <div>
+        <dt>Location</dt>
+        <dd>{{ vehicle.location.city }}, {{ vehicle.location.state }}</dd>
+      </div>
+    </dl>
+
+    <div class="tag-row">
+      @for (tag of vehicle.tags; track tag) {
+        <span>{{ tag }}</span>
+      }
+    </div>
+
+    <a class="details-link" [routerLink]="['/buy', vehicle.id]">View details</a>
+  </div>
+</article>

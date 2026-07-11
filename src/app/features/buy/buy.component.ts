@@ -1,11 +1,10 @@
-import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 
 import { BodyStyle, FuelType, InventoryFilters, Vehicle } from '../../core/models/vehicle';
 import { InventoryService } from '../../core/services/inventory.service';
+import { VehicleResultCardComponent } from './vehicle-result-card.component';
 
 interface BuyFormFilters {
   query: string;
@@ -18,7 +17,7 @@ interface BuyFormFilters {
 
 @Component({
   selector: 'app-buy',
-  imports: [CurrencyPipe, DecimalPipe, FormsModule, RouterLink],
+  imports: [FormsModule, VehicleResultCardComponent],
   templateUrl: './buy.component.html',
   styleUrl: './buy.component.css',
 })
