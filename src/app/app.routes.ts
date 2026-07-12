@@ -35,7 +35,9 @@ export const routes: Routes = [
   {
     path: 'bids',
     loadComponent: () =>
-      import('./features/bids/bid-list.component').then((component) => component.BidListComponent),
+      import('./features/bids/bid-list-page-host.component').then(
+        (component) => component.BidListPageHostComponent,
+      ),
   },
   {
     path: 'profile',
