@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { finalize } from 'rxjs';
 
-import { BodyStyle, FuelType, InventoryFilters, Vehicle } from '../../core/models/vehicle';
+import { BodyStyle, FuelType, InventoryFilters, Vehicle } from '@drivewise/common-data';
 import { InventoryService } from '../../core/services/inventory.service';
 import { VehicleResultCardComponent } from './vehicle-result-card.component';
 

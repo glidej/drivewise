@@ -1,6 +1,6 @@
 import { afterEach, vi } from 'vitest';
 
-import { Vehicle } from '../../core/models/vehicle';
+import { Vehicle } from '@drivewise/common-data';
 import {
   VehicleActivityStreamService,
   buildInitialVehicleActivityState,

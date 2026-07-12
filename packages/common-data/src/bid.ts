@@ -1,4 +1,4 @@
-import { Vehicle } from './vehicle';
+import { Vehicle } from './vehicle.js';
 
 export type VehicleBidStatus = 'winning' | 'outbid' | 'countered' | 'watching';
 

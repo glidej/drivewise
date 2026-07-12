@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { defer, map, Observable, of } from 'rxjs';
-
-import { MOCK_VEHICLES } from '../data/mock-vehicles';
-import { InventoryFilters, Vehicle } from '../models/vehicle';
+import { cloneVehicle, InventoryFilters, MOCK_VEHICLES, Vehicle } from '@drivewise/common-data';
 
 @Injectable({ providedIn: 'root' })
 export class InventoryService {
   getVehicles(): Observable<Vehicle[]> {
-    return defer(() => of(MOCK_VEHICLES.map((vehicle) => this.cloneVehicle(vehicle))));
+    return defer(() => of(MOCK_VEHICLES.map(cloneVehicle)));
   }
 
   getFeaturedVehicles(limit = 3): Observable<Vehicle[]> {
@@ -65,13 +63,4 @@ export class InventoryService {
       .includes(normalizedQuery);
   }
 
-  private cloneVehicle(vehicle: Vehicle): Vehicle {
-    return {
-      ...vehicle,
-      features: [...vehicle.features],
-      tags: [...vehicle.tags],
-      history: { ...vehicle.history },
-      location: { ...vehicle.location },
-    };
-  }
 }

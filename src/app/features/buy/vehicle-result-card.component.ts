@@ -2,10 +2,9 @@ import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
+import { Vehicle, VehicleBidStatus, VehicleBidSummary } from '@drivewise/common-data';
 import { switchMap } from 'rxjs';
 
-import { VehicleBidStatus, VehicleBidSummary } from '../../core/models/bid';
-import { Vehicle } from '../../core/models/vehicle';
 import {
   EMPTY_VEHICLE_ACTIVITY_STATE,
   VehicleActivityStreamService,

@@ -1,4 +1,4 @@
-import { VehicleBidRecord } from '../models/bid';
+import { VehicleBidRecord } from './bid.js';
 
 export const MOCK_BID_RECORDS: VehicleBidRecord[] = [
   {

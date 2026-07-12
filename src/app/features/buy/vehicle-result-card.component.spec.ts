@@ -2,9 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { vi } from 'vitest';
-
-import { VehicleBidSummary } from '../../core/models/bid';
-import { Vehicle } from '../../core/models/vehicle';
+import { Vehicle, VehicleBidSummary } from '@drivewise/common-data';
 import {
   VehicleActivityState,
   VehicleActivityStreamService,
