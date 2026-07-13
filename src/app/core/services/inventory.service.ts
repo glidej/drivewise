@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { defer, map, Observable, of } from 'rxjs';
+import { cloneVehicle, MOCK_VEHICLES } from '@drivewise/common-data';
 
-import { MOCK_VEHICLES } from '../data/mock-vehicles';
 import { InventoryFilters, Vehicle } from '../models/vehicle';
 
 @Injectable({ providedIn: 'root' })
 export class InventoryService {
   getVehicles(): Observable<Vehicle[]> {
-    return defer(() => of(MOCK_VEHICLES.map((vehicle) => this.cloneVehicle(vehicle))));
+    return defer(() => of(MOCK_VEHICLES.map((vehicle) => cloneVehicle(vehicle))));
   }
 
   getFeaturedVehicles(limit = 3): Observable<Vehicle[]> {
@@ -17,7 +17,9 @@ export class InventoryService {
   }
 
   getVehicleById(id: string): Observable<Vehicle | undefined> {
-    return this.getVehicles().pipe(map((vehicles) => vehicles.find((vehicle) => vehicle.id === id)));
+    return this.getVehicles().pipe(
+      map((vehicles) => vehicles.find((vehicle) => vehicle.id === id)),
+    );
   }
 
   searchVehicles(filters: InventoryFilters = {}): Observable<Vehicle[]> {
@@ -25,8 +27,14 @@ export class InventoryService {
       map((vehicles) =>
         vehicles.filter((vehicle) => {
           const matchesQuery = this.matchesQuery(vehicle, filters.query);
-          const matchesBody = !filters.bodyStyle || filters.bodyStyle === 'Any' || vehicle.bodyStyle === filters.bodyStyle;
-          const matchesFuel = !filters.fuelType || filters.fuelType === 'Any' || vehicle.fuelType === filters.fuelType;
+          const matchesBody =
+            !filters.bodyStyle ||
+            filters.bodyStyle === 'Any' ||
+            vehicle.bodyStyle === filters.bodyStyle;
+          const matchesFuel =
+            !filters.fuelType ||
+            filters.fuelType === 'Any' ||
+            vehicle.fuelType === filters.fuelType;
           const matchesPrice = !filters.maxPrice || vehicle.price <= filters.maxPrice;
           const matchesMileage = !filters.maxMileage || vehicle.mileage <= filters.maxMileage;
           const matchesYear = !filters.minYear || vehicle.year >= filters.minYear;
@@ -63,15 +71,5 @@ export class InventoryService {
       .join(' ')
       .toLowerCase()
       .includes(normalizedQuery);
-  }
-
-  private cloneVehicle(vehicle: Vehicle): Vehicle {
-    return {
-      ...vehicle,
-      features: [...vehicle.features],
-      tags: [...vehicle.tags],
-      history: { ...vehicle.history },
-      location: { ...vehicle.location },
-    };
   }
 }
