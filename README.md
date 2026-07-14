@@ -18,9 +18,11 @@ The app is also a migration playground. Angular owns the application shell, rout
 ## Workspace Packages
 
 - `packages/auth-state`: shared mock authentication state package used by both Angular and React.
+- `packages/common-data`: framework-neutral mock vehicle and bid data, types, and fixture helpers used by Angular and React packages.
 - `packages/react-ui`: shared React UI primitives for document shells, notice cards, status panels, buttons, and empty states, styled with `styled-components`.
 - `packages/profile-angular`: standalone Angular profile microfrontend hosted by the Angular shell.
 - `packages/legal-react`: React legal-page microfrontend styled with `styled-components`. Terms fetches mock data with React Query; Privacy receives Angular service data as props; common presentation comes from `packages/react-ui`.
+- `packages/bids-react`: React bid-list microfrontend with package-owned React Query fetching, visible loading/error/empty states, and route-level Angular rollback.
 
 ## Styling
 
@@ -97,7 +99,7 @@ Create a production build:
 npm run build
 ```
 
-This builds `@drivewise/auth-state`, `@drivewise/profile-angular`, `@drivewise/react-ui`, `@drivewise/legal-react`, then the Angular app. Output is written to `dist/angular-project`.
+This builds the workspace packages, then the Angular app. Output is written to `dist/angular-project`.
 
 ## Test
 
@@ -110,23 +112,27 @@ npm test -- --watch=false
 This runs:
 
 - `@drivewise/auth-state` package tests
+- `@drivewise/common-data` package tests
 - `@drivewise/profile-angular` package tests
 - `@drivewise/react-ui` package tests
 - `@drivewise/legal-react` package tests
+- `@drivewise/bids-react` package tests
 - Angular app tests
 
 Package-specific tests are also available:
 
 ```bash
 npm run test:auth-state
+npm run test:common-data
 npm run test:profile-angular
 npm run test:react-ui
 npm run test:legal-react
+npm run test:bids-react
 ```
 
 ## Feature Flags
 
-React legal pages are enabled by default through `FeatureFlagsService`. Turning `legalReactEnabled` off routes the same Angular `/terms` and `/privacy` pages through the Angular fallback component instead of the React host.
+React legal pages are enabled by default through `FeatureFlagsService`. Turning `legalReactEnabled` off routes the same Angular `/terms` and `/privacy` pages through the Angular fallback component instead of the React host. The React bid list flag, `bidListReactEnabled`, defaults off so `/bids` can roll back to the Angular bid list while the React route package is validated.
 
 ## Notes
 
