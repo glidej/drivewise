@@ -1,77 +1,29 @@
 import { Injectable } from '@angular/core';
-import { defer, map, Observable, of } from 'rxjs';
+import {
+  getFeaturedMockVehicles,
+  getMockVehicleById,
+  getMockVehicles,
+  searchMockVehicles,
+} from '@drivewise/common-data';
+import { defer, Observable, of } from 'rxjs';
 
-import { MOCK_VEHICLES } from '../data/mock-vehicles';
 import { InventoryFilters, Vehicle } from '../models/vehicle';
 
 @Injectable({ providedIn: 'root' })
 export class InventoryService {
   getVehicles(): Observable<Vehicle[]> {
-    return defer(() => of(MOCK_VEHICLES.map((vehicle) => this.cloneVehicle(vehicle))));
+    return defer(() => of(getMockVehicles()));
   }
 
   getFeaturedVehicles(limit = 3): Observable<Vehicle[]> {
-    return this.getVehicles().pipe(
-      map((vehicles) => vehicles.filter((vehicle) => vehicle.highlighted).slice(0, limit)),
-    );
+    return defer(() => of(getFeaturedMockVehicles(limit)));
   }
 
   getVehicleById(id: string): Observable<Vehicle | undefined> {
-    return this.getVehicles().pipe(map((vehicles) => vehicles.find((vehicle) => vehicle.id === id)));
+    return defer(() => of(getMockVehicleById(id)));
   }
 
   searchVehicles(filters: InventoryFilters = {}): Observable<Vehicle[]> {
-    return this.getVehicles().pipe(
-      map((vehicles) =>
-        vehicles.filter((vehicle) => {
-          const matchesQuery = this.matchesQuery(vehicle, filters.query);
-          const matchesBody = !filters.bodyStyle || filters.bodyStyle === 'Any' || vehicle.bodyStyle === filters.bodyStyle;
-          const matchesFuel = !filters.fuelType || filters.fuelType === 'Any' || vehicle.fuelType === filters.fuelType;
-          const matchesPrice = !filters.maxPrice || vehicle.price <= filters.maxPrice;
-          const matchesMileage = !filters.maxMileage || vehicle.mileage <= filters.maxMileage;
-          const matchesYear = !filters.minYear || vehicle.year >= filters.minYear;
-
-          return (
-            matchesQuery &&
-            matchesBody &&
-            matchesFuel &&
-            matchesPrice &&
-            matchesMileage &&
-            matchesYear
-          );
-        }),
-      ),
-    );
-  }
-
-  private matchesQuery(vehicle: Vehicle, query = ''): boolean {
-    const normalizedQuery = query.trim().toLowerCase();
-
-    if (!normalizedQuery) {
-      return true;
-    }
-
-    return [
-      vehicle.year,
-      vehicle.make,
-      vehicle.model,
-      vehicle.trim,
-      vehicle.bodyStyle,
-      vehicle.fuelType,
-      vehicle.tags.join(' '),
-    ]
-      .join(' ')
-      .toLowerCase()
-      .includes(normalizedQuery);
-  }
-
-  private cloneVehicle(vehicle: Vehicle): Vehicle {
-    return {
-      ...vehicle,
-      features: [...vehicle.features],
-      tags: [...vehicle.tags],
-      history: { ...vehicle.history },
-      location: { ...vehicle.location },
-    };
+    return defer(() => of(searchMockVehicles(filters)));
   }
 }

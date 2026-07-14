@@ -1,0 +1,50 @@
+import { Vehicle, VehicleBidSummary } from './types';
+
+export const vehicle: Vehicle = {
+  id: 'rav4-hybrid-xse',
+  vin: '2T3E6RFV0RW123456',
+  stockNumber: 'DW-2401',
+  year: 2024,
+  make: 'Toyota',
+  model: 'RAV4 Hybrid',
+  trim: 'XSE',
+  price: 38900,
+  mileage: 18200,
+  bodyStyle: 'SUV',
+  drivetrain: 'AWD',
+  fuelType: 'Hybrid',
+  transmission: 'Automatic',
+  exteriorColor: 'Blueprint',
+  interiorColor: 'Black SofTex',
+  mpgCity: 41,
+  mpgHighway: 38,
+  imageUrl: 'https://example.com/rav4.jpg',
+  imageAlt: 'Blue Toyota RAV4 Hybrid parked outside',
+  location: {
+    city: 'Ann Arbor',
+    state: 'MI',
+    distanceMiles: 18,
+  },
+  dealerName: 'Drivewise Ann Arbor',
+  rating: 4.8,
+  features: ['Heated seats'],
+  tags: ['Certified', 'One owner'],
+  history: {
+    owners: 1,
+    accidentFree: true,
+    serviceRecords: 6,
+  },
+  sellerNotes: 'A clean mock vehicle for component tests.',
+  highlighted: true,
+};
+
+export const outbidSummary: VehicleBidSummary = {
+  id: 'bid-rav4-outbid',
+  amount: 27600,
+  maxAutoBid: 28600,
+  status: 'outbid',
+  placedAt: '2026-07-09T21:45:00.000Z',
+  expiresAt: '2026-07-11T22:15:00.000Z',
+  competingBids: 3,
+  rank: 2,
+};
